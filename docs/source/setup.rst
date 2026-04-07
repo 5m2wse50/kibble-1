@@ -86,11 +86,9 @@ Source Code Location
 For the time being, we recommend that you use the ``master`` branch for
 testing Kibble. This applies to both scanners and the server.
 
-The Kibble Server can be found via our source repository at
+The Kibble source code includes both the server and the scanners.
+It can be found via our source repository at
 https://github.com/apache/kibble
-
-The Kibble Scanners can be found at
-https://github.com/apache/kibble-scanners
 
 
 *********************
@@ -113,7 +111,7 @@ following components installed and set up:
 - - certifi
 - - pyyaml
 - - bcrypt
-- Gunicorn for Python 3.x (often called gunicorn3) or mod_wsgi
+- - Gunicorn for Python 3.x (often called gunicorn3) or mod_wsgi
 
 ###########################################
 Configuring and Priming the Kibble Instance
@@ -174,7 +172,7 @@ be using the Apache HTTP Server and proxy to Gunicorn:
    waitress-serve --listen=*:8000 handler:application
    
    Once httpd is (re)started, you should be able to browse to your new
-Kibble instance.
+   Kibble instance.
 
 
 *******************
@@ -205,9 +203,11 @@ git repository analysis:
 Configuring a Scanner Node
 ###########################
 
-First, check out the scanner source in a file path of your choosing:
+First, check out the Kibble source in a file path of your choosing:
 
-``git clone https://github.com/apache/kibble-scanners.git``
+``git clone https://github.com/apache/kibble.git``
+
+Scanners are located in the ``scanners/`` directory.
 
 Then edit the ``conf/config.yaml`` file to match both the ElasticSearch
 database used by the Kibble UI, as well as whatever file layout (data
@@ -247,7 +247,7 @@ for how to set up various resources for scanning via the Web UI.
 
 Scans can be initiated manually, but you may want to set up a cron job to
 handle daily scans of resources. To start a scan on a scanner machine,
-run the following: ``python3 src/kibble-scanner.py``
+run the following: ``python3 scanners/kibble-scanner.py``
 
 This will load all plugins and use them in a sensible order on each
 resource that matches the appropriate type. The collected data will be
@@ -255,6 +255,6 @@ pushed to the main data server and be available for visualizations
 instantly.
 
 It may be worth your while to run the scanner inside a timer wrapper,
-as such: ``time python3 src/kibble-scanner.py`` in order to gauge the
+as such: ``time python3 scanners/kibble-scanner.py`` in order to gauge the
 amount of time a scan will take, and adjusting your cron jobs to match
 this.
